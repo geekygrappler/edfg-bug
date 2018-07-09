@@ -22,11 +22,28 @@ module('Acceptance | application', function(hooks) {
     assert.equal(currentURL(), '/foo/1', 'We are only making one foo, so the id should be 1');
   });
 
+  test('using mockCreate with makeNew does not work even using foo\'s id', async function(assert) {
+    let foo = makeNew('foo');
+    mockCreate(foo);
+    await visit('/');
+
+    assert.equal(currentURL(), `/foo/${foo.id}`, 'We are only making one foo, so the id should be 1');
+  });
+
+
   test('using mockCreate with make also does not works', async function(assert) {
     let foo = make('foo');
     mockCreate(foo);
     await visit('/');
 
     assert.equal(currentURL(), '/foo/1', 'We are only making one foo, so the id should be 1');
+  });
+
+  test('using mockCreate with make also does not work even using foo\'s id', async function(assert) {
+    let foo = make('foo');
+    mockCreate(foo);
+    await visit('/');
+
+    assert.equal(currentURL(), `/foo/${foo.id}`, 'We are only making one foo, so the id should be 1');
   });
 });
